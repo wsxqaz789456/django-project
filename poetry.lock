@@ -25,7 +25,7 @@ python-versions = ">=3.8"
 files = [
     {file = "Django-4.1-py3-none-any.whl", hash = "sha256:031ccb717782f6af83a0063a1957686e87cb4581ea61b47b3e9addf60687989a"},
     {file = "Django-4.1.tar.gz", hash = "sha256:032f8a6fc7cf05ccd1214e4a2e21dfcd6a23b9d575c6573cacc8c67828dbe642"},
-]
+
 
 [package.dependencies]
 asgiref = ">=3.5.2,<4"
