@@ -48,6 +48,9 @@ class Question(CommonModel):
         related_name="questions",
     )
 
+    def __str__(self) -> str:
+        return "질문"
+
     class Meta:
         verbose_name_plural = "질문"
 
@@ -64,6 +67,9 @@ class Answer(CommonModel):
         on_delete=models.CASCADE,
         related_name="answers",
     )
+
+    def __str__(self) -> str:
+        return "답변"
 
     class Meta:
         verbose_name_plural = "답변"

@@ -4,12 +4,36 @@ from .models import Sales, Question, Answer
 # Register your models here.
 @admin.register(Sales)
 class SalesAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "name",
+        "price",
+        "bought_price",
+        "owner",
+        "unopened",
+        "category",
+        "created_at",
+    )
+    list_filter = (
+        "price",
+        "bought_price",
+        "owner",
+        "category",
+        "created_at",
+    )
 
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "author",
+        "product",
+        "created_at",
+    )
+    list_filter = (
+        "author",
+        "product",
+        "created_at",
+    )
 
 
 @admin.register(Answer)
