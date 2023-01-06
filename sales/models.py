@@ -47,6 +47,14 @@ class Question(CommonModel):
         on_delete=models.CASCADE,
         related_name="questions",
     )
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="reply",
+    )
+    is_parent = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return "질문"
@@ -55,7 +63,7 @@ class Question(CommonModel):
         verbose_name_plural = "질문"
 
 
-class Answer(CommonModel):
+""" class Answer(CommonModel):
     author = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
@@ -72,4 +80,4 @@ class Answer(CommonModel):
         return "답변"
 
     class Meta:
-        verbose_name_plural = "답변"
+        verbose_name_plural = "답변" """

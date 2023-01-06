@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sales, Question, Answer
+from .models import Sales, Question
 
 # Register your models here.
 @admin.register(Sales)
@@ -36,6 +36,6 @@ class QuestionAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Answer)
+""" @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    pass
+    pass """

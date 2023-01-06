@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from .models import Sales, Question, Answer
+from .models import Sales, Question
 
 from users.serializers import TinyUserSerializer
 from categories.serializers import CategorySerializer
 
 
-class AnswerSerializer(serializers.ModelSerializer):
+""" class AnswerSerializer(serializers.ModelSerializer):
     author = TinyUserSerializer(read_only=True)
 
     class Meta:
@@ -16,15 +16,17 @@ class AnswerSerializer(serializers.ModelSerializer):
             "author",
             "answer",
             "updated_at",
-        )
+        ) """
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     author = TinyUserSerializer(read_only=True)
-    answers = AnswerSerializer(
-        read_only=True,
-        many=True,
-    )
+    reply = serializers.SerializerMethodField()
+
+    def get_reply(self, instance):
+        serializer = self.__class__(instance.reply, many=True)
+        serializer.bind("", self)
+        return serializer.data
 
     class Meta:
         model = Question
@@ -32,8 +34,10 @@ class QuestionSerializer(serializers.ModelSerializer):
             "id",
             "author",
             "question",
+            "parent",
+            "is_parent",
             "created_at",
-            "answers",
+            "reply",
         )
 
 
@@ -49,12 +53,12 @@ class SalesSerializers(serializers.ModelSerializer):
 
 class SalesTitleSerializers(serializers.ModelSerializer):
     owner = TinyUserSerializer(read_only=True)
-    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Sales
         fields = (
             "pk",
+            "owner",
             "name",
             "price",
             "location",
