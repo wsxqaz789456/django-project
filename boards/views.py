@@ -65,6 +65,7 @@ class BoardDetail(APIView):
         board = self.get_object(pk)
         if board.author != request.user:
             raise PermissionDenied
+        board.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
