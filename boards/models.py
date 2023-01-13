@@ -17,6 +17,11 @@ class Board(CommonModel):
     )
     content = models.TextField()
 
+    views = models.IntegerField(default=0)
+
+    def total_comments(self):
+        return self.comments.count()
+
     def __str__(self) -> str:
         return self.title
 

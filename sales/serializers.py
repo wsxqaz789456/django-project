@@ -4,6 +4,7 @@ from .models import Sales, Question
 
 from users.serializers import TinyUserSerializer
 from categories.serializers import CategorySerializer
+from photos.serializers import PhotoSerializer
 
 
 """ class AnswerSerializer(serializers.ModelSerializer):
@@ -45,14 +46,23 @@ class SalesSerializers(serializers.ModelSerializer):
     owner = TinyUserSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     questions = QuestionSerializer(read_only=True, many=True)
+    photos = PhotoSerializer(many=True, read_only=True)
+    is_owner = serializers.SerializerMethodField()
 
     class Meta:
         model = Sales
         fields = "__all__"
 
+    def get_is_owner(self, instance):
+        request = self.context.get("request")
+        if request:
+            return instance.owner == request.user
+        return False
+
 
 class SalesTitleSerializers(serializers.ModelSerializer):
     owner = TinyUserSerializer(read_only=True)
+    photos = PhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Sales
@@ -62,4 +72,5 @@ class SalesTitleSerializers(serializers.ModelSerializer):
             "name",
             "price",
             "location",
+            "photos",
         )

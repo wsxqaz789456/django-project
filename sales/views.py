@@ -59,7 +59,10 @@ class SaleDetail(APIView):
 
     def get(self, request, pk):
         sale = self.get_object(pk)
-        serializer = SalesSerializers(sale)
+        serializer = SalesSerializers(
+            sale,
+            context={"request": request},
+        )
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -85,16 +88,16 @@ class SaleDetail(APIView):
                 return Response(serializer.data)
             sale = serializer.save()
             serializer = SalesSerializers(sale)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         sale = self.get_object(pk)
         if sale.owner != request.user:
             raise PermissionDenied
         sale.delete()
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_200_OK)
 
 
 class Questsions(APIView):
@@ -167,7 +170,7 @@ class QuestionDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             return Response(serializer.errors)
 
@@ -177,7 +180,7 @@ class QuestionDetail(APIView):
         if question.author != request.user or sale.owner != request.user:
             raise PermissionDenied
         question.delete()
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_200_OK)
 
 
 """ class Answer(APIView):
@@ -220,7 +223,7 @@ class QuestionDetail(APIView):
  """
 
 
-class RoomPhotos(APIView):
+class SalePhotos(APIView):
 
     permission_classes = [IsAuthenticated]
 

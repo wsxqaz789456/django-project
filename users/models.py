@@ -26,6 +26,10 @@ class User(AbstractUser):
         blank=True,
     )
     gender = models.CharField(
+        blank=True,
         max_length=10,
         choices=GenderChoices.choices,
+    )
+    email = models.EmailField(
+        unique=True,
     )

@@ -43,7 +43,12 @@ class BoardDetail(APIView):
             raise NotFound
 
     def get(self, request, pk):
-        serializer = BoardSerializer(self.get_object(pk))
+        board = self.get_object(pk)
+
+        board.views = board.views + 1
+        board.save()
+        serializer = BoardSerializer(board)
+
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -57,14 +62,20 @@ class BoardDetail(APIView):
         )
         if serializer.is_valid():
             updated_board = serializer.save()
-            return Response(BoardSerializer(updated_board).data)
+            return Response(
+                BoardSerializer(updated_board).data,
+                status=status.HTTP_200_OK,
+            )
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
     def delete(self, request, pk):
         board = self.get_object(pk)
         if board.author != request.user:
-            raise PermissionDenied
+            raise PermissionDenied(status=status.HTTP_403_FORBIDDEN)
         board.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -98,7 +109,7 @@ class BoardComments(APIView):
             )
             return Response(CommentSerializer(new_comment).data)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
 
 
 class Comments(APIView):
@@ -113,6 +124,6 @@ class Comments(APIView):
     def delete(self, request, pk):
         comment = self.get_object(pk)
         if comment.author != request.user:
-            raise PermissionDenied
+            raise PermissionDenied(status=status.HTTP_403_FORBIDDEN)
         comment.delete()
         return Response(status=status.HTTP_200_OK)

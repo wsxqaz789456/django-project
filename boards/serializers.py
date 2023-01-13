@@ -19,6 +19,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
+    total_comments = serializers.SerializerMethodField()
+
+    def get_total_comments(self, instance):
+        return instance.total_comments()
+
     author = TinyUserSerializer(
         read_only=True,
     )
@@ -36,5 +41,7 @@ class BoardSerializer(serializers.ModelSerializer):
             "content",
             "created_at",
             "updated_at",
+            "views",
+            "total_comments",
             "comments",
         )

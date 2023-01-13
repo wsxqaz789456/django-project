@@ -54,10 +54,10 @@ class Question(CommonModel):
         blank=True,
         related_name="reply",
     )
-    is_parent = models.BooleanField(default=False)
+    is_parent = models.BooleanField(default=True)
 
     def __str__(self) -> str:
-        return "질문"
+        return f"질문 : {self.question}"
 
     class Meta:
         verbose_name_plural = "질문"

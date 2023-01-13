@@ -7,6 +7,7 @@ class BoardAdmin(admin.ModelAdmin):
     list_display = (
         "author",
         "title",
+        "total_comments",
     )
 
 

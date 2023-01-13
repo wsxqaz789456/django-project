@@ -8,6 +8,7 @@ class TinyUserSerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "username",
+            "avatar",
         )
 
 
