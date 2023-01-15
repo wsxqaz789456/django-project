@@ -8,8 +8,9 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 from .models import Photo
 
 
+# photo URL로 접근시 기능을 수행하는 view
 class PhotoDetail(APIView):
-
+    # 로그인 된 유저에 한해 기능 수행을 가능하게 함
     permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
@@ -27,6 +28,7 @@ class PhotoDetail(APIView):
 
 
 class GetUploadURL(APIView):
+    # 사진 업로드시 지정된 url로 토큰을 post하고 데이터를 전송받음.
     def post(self, request):
         url = f"https://api.cloudflare.com/client/v4/accounts/{settings.CF_ID}/images/v2/direct_upload"
         one_time_url = requests.post(

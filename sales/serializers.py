@@ -1,23 +1,14 @@
 from rest_framework import serializers
 
-from .models import Sales, Question
 
 from users.serializers import TinyUserSerializer
 from categories.serializers import CategorySerializer
 from photos.serializers import PhotoSerializer
 
+from .models import Sales, Question
 
-""" class AnswerSerializer(serializers.ModelSerializer):
-    author = TinyUserSerializer(read_only=True)
 
-    class Meta:
-        model = Answer
-        fields = (
-            "pk",
-            "author",
-            "answer",
-            "updated_at",
-        ) """
+# 판매 게시글과 댓글 model의 대한 데이터 검증에 필요한 serialzier 작성
 
 
 class QuestionSerializer(serializers.ModelSerializer):

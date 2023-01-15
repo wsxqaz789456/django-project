@@ -10,6 +10,8 @@ from .views import (
     KakaoLogIn,
 )
 
+
+# 특졍 URL로 접근시 해당 기능을 수행
 urlpatterns = [
     path("", Users.as_view()),
     path("me", Me.as_view()),

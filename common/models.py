@@ -1,7 +1,8 @@
 from django.db import models
 
-# Create your models here.
+# 모든 model에 공통적으로 상속되는 CommonModel
 class CommonModel(models.Model):
+    """CommomModel에 대한 정의"""
 
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -10,5 +11,6 @@ class CommonModel(models.Model):
         auto_now=True,
     )
 
+    # 상속 전용 모델
     class Meta:
         abstract = True

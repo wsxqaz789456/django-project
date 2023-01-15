@@ -1,9 +1,14 @@
 from django.contrib import admin
 from .models import Sales, Question
 
-# Register your models here.
+
+# Django admin panel에서 표시할 항목들을 지정
+
+
 @admin.register(Sales)
 class SalesAdmin(admin.ModelAdmin):
+    """admin panel에서 나타낼 항목들과 필터 요소들을 지정"""
+
     list_display = (
         "name",
         "price",
@@ -24,6 +29,8 @@ class SalesAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
+    """admin panel에서 나타낼 항목들과 필터 요소들을 지정"""
+
     list_display = (
         "author",
         "product",

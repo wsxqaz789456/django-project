@@ -1,8 +1,12 @@
 from django.db import models
 from common.models import CommonModel
 
-# Create your models here.
+
+# 판매 게시판에 사용될 게시글과 댓글에 대한 model 작성
 class Sales(CommonModel):
+
+    """판매 게시글의 model에 대한 정의"""
+
     name = models.CharField(
         max_length=150,
     )
@@ -36,6 +40,9 @@ class Sales(CommonModel):
 
 
 class Question(CommonModel):
+
+    """판매 게시글의 댓글 model에 대한 정의"""
+
     author = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
@@ -47,6 +54,11 @@ class Question(CommonModel):
         on_delete=models.CASCADE,
         related_name="questions",
     )
+
+    # 대댓글 작성시 자신을 모델 key로 지정함
+    # 최초 작성시 기본적으로 null값으로 지정됨
+    # null 값으로 지정될 경우 최상위 부모 댓글
+    # 댓글의 pk값을 전달받을 경우 해당 댓글의 자식 댓글로 구성됨
     parent = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -61,23 +73,3 @@ class Question(CommonModel):
 
     class Meta:
         verbose_name_plural = "질문"
-
-
-""" class Answer(CommonModel):
-    author = models.ForeignKey(
-        "users.User",
-        on_delete=models.CASCADE,
-        related_name="answers",
-    )
-    answer = models.CharField(max_length=200)
-    post = models.ForeignKey(
-        "sales.Question",
-        on_delete=models.CASCADE,
-        related_name="answers",
-    )
-
-    def __str__(self) -> str:
-        return "답변"
-
-    class Meta:
-        verbose_name_plural = "답변" """

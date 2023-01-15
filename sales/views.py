@@ -15,7 +15,12 @@ from categories.models import Category
 from photos.serializers import PhotoSerializer
 
 
+# 특정 url에 대하여 작성된 serializer를 통한 검증과 데이터 입출력을 나타내는 view작성
+
+
 class Sale(APIView):
+
+    """판매 게시글에 대한 get, post method 작성"""
 
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -49,6 +54,8 @@ class Sale(APIView):
 
 class SaleDetail(APIView):
 
+    """특정 게시글에 대한 get, put, delete method 작성"""
+
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self, pk):
@@ -75,6 +82,7 @@ class SaleDetail(APIView):
             partial=True,
         )
         if serializer.is_valid():
+            # put method 작성시 전달받은 데이터에 category항목이 없을 경우
             if "category" in request.data:
                 category_pk = request.data.get("category")
                 if not category_pk:
@@ -102,6 +110,8 @@ class SaleDetail(APIView):
 
 class Questsions(APIView):
 
+    """특정 pk의 게시글에 대한 댓글 get, post method 작성"""
+
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self, pk):
@@ -123,6 +133,8 @@ class Questsions(APIView):
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
             parent_pk = request.data.get("parent")
+            # post method 실행시 parent 값을 전달받았을 경우
+            # 해당 parent의 값이 null이 아닐 시에 댓글 작성을 제한
             if parent_pk:
                 parent = Question.objects.get(pk=parent_pk)
                 if parent.parent_id != None:
@@ -181,46 +193,6 @@ class QuestionDetail(APIView):
             raise PermissionDenied
         question.delete()
         return Response(status=status.HTTP_200_OK)
-
-
-""" class Answer(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def get_object(self, pk):
-        try:
-            return Sales.objects.get(pk=pk)
-        except:
-            return NotFound
-
-    def get(self, request, pk, q_pk, a_pk):
-        sale = self.get_object(pk)
-        question = sale.questions.get(pk=q_pk)
-        answer = question.answers.get(pk=a_pk)
-        serializer = AnswerSerializer(answer)
-        return Response(serializer.data)
-
-    def put(self, request, pk, q_pk, a_pk):
-        sale = self.get_object(pk)
-        question = sale.questions.get(pk=q_pk)
-        answer = question.answers.get(pk=a_pk)
-        if answer.author != request.user:
-            raise PermissionDenied
-        serialzier = AnswerSerializer(answer, data=request.data, partial=True)
-        if serialzier.is_valid():
-            new_answer = serialzier.save()
-            return Response(AnswerSerializer(new_answer).data)
-        else:
-            return Response(serialzier.errors)
-
-    def delete(self, request, pk, q_pk, a_pk):
-        sale = self.get_object(pk)
-        question = sale.questions.get(pk=q_pk)
-        answer = question.answers.get(pk=a_pk)
-        if answer.author != request.user:
-            raise PermissionDenied
-        answer.delete()
-        return Response(status=status.HTTP_400_BAD_REQUEST)
- """
 
 
 class SalePhotos(APIView):

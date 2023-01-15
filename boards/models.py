@@ -1,10 +1,14 @@
 from django.db import models
 from common.models import CommonModel
 
-# Create your models here.
+
+# 게시판에 사용될 게시글과 댓글의 모델을 작성함.
 
 
 class Board(CommonModel):
+
+    """게시글 모델의 정의"""
+
     author = models.ForeignKey(
         "users.User",
         on_delete=models.SET_NULL,
@@ -19,6 +23,7 @@ class Board(CommonModel):
 
     views = models.IntegerField(default=0)
 
+    # 게시글에 작성된 댓글의 갯수를 구함
     def total_comments(self):
         return self.comments.count()
 
@@ -27,6 +32,9 @@ class Board(CommonModel):
 
 
 class Comment(CommonModel):
+
+    """댓글 모델의 정의"""
+
     author = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
