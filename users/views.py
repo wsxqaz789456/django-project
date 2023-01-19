@@ -12,7 +12,7 @@ from .models import User
 
 class Me(APIView):
 
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
