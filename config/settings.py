@@ -193,6 +193,8 @@ CF_ID = env("CF_ID")
 CF_TOKEN = env("CF_TOKEN")
 
 if not DEBUG:
+    SESSION_COOKIE_DOMAIN = ".mypractice.store"
+    CSRF_COOKIE_DOMAIN = ".mypractice.store"
 
     sentry_sdk.init(
         dsn="https://925cf749feba44489f6e51262eb96c5b@o4504506340409344.ingest.sentry.io/4504506342703104",
