@@ -163,7 +163,7 @@ class KakaoLogIn(APIView):
                 data={
                     "grant_type": "authorization_code",
                     "client_id": "1fcabcb723408050bb1665d28f350ad0",
-                    "redirect_uri": "http://127.0.0.1:3000/social/kakao",
+                    "redirect_uri": "https://mypractice.store/social/kakao",
                     "code": code,
                 },
             )
